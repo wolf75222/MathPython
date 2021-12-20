@@ -1,0 +1,44 @@
+Rangemennt des fichiers sur github
+
+Ajout de Fraction.py
+Ajout de Focntion.py
+
+Fonction.py: 
+
+
+Fraction.py: 
+    Il y a un retour en float qui est corriger dans __mul__ et __repr__
+    
+
+
+
+Matrice.py:
+
+    Ajout a la class Matrice de:
+    
+        Matrice.matriceDeZero
+        Matrice.identite
+    
+    Remplacement de tbl par lst 
+    remplacement de __repr__ par __str__ 
+    ajout de __repr__
+    ajout __name__ == "__main__"
+    ajout de __neg__
+    ajout de __setitem__
+    ajout de __ne__
+    ajout de __call__
+    
+    modification de __str__ pour avoir une matrice droite, ancien code:
+        s = ""
+        s += "-----\n"
+        for ligne in self.tableau:
+            s += " ".join(["{:.1f} ".format(x) for x in ligne])
+            s += "\n"
+        s += "-----\n"
+        return s
+    
+    
+
+NbComplexe.py:
+    
+
