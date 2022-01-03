@@ -15,16 +15,17 @@ from mpl_toolkits import mplot3d
 
 class Matrice:
     """
-    La class Matrice tel que:
-
-    Une matrice A de dimension n × p à termes dans R est un
-    tableau de réels de n lignes et p colonnes
-
-    soit : A = (aij)
-
-    ij est le coefficient de A situé à l’intersection de la ligne i et de la colonne j.
-    Mn,p(R) est l’ensemble des matrice de dimension n × p.
+        La class Matrice tel que:
+    
+        Une matrice A de dimension n × p à termes dans R est un
+        tableau de réels de n lignes et p colonnes
+    
+        soit : A = (aij)
+    
+        ij est le coefficient de A situé à l’intersection de la ligne i et de la colonne j.
+        Mn,p(R) est l’ensemble des matrice de dimension n × p.
     """
+    
 
     def __init__(self, lst):
         """
@@ -348,7 +349,21 @@ class Matrice:
         for ligne in self.tableau:
             for i in ligne:
                 yield i
+            
+    def inverse(self):
+        """
+        Une matrice carrée A d’ordre n est inversible si, et seulement
+        si, il existe une matrice carrée d’ordre n, appelée matrice inverse A−1, telle que :
+            AA−1 = A−1A = In
+        Si A−1 n’existe pas, on dit que la matrice M est singulière
+        
+        Returns
+        -------
+        None.
 
+        """
+        pass
+        
     
 
 

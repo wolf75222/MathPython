@@ -8,9 +8,9 @@
 
 from math import sqrt, degrees, atan, pi
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt 
 from mpl_toolkits import mplot3d
-
+from Fraction import *
 
 # =============================================================================
 #  i² = -1
@@ -27,23 +27,30 @@ class NBcomplexe():
     """
     def __init__(self, x = 0, y = 0):  #J'implémenterai l'appel avec un nombre complexe en paramètre qui permet ainsi la copie d'instances
         #assert isinstance(x, int or float or Fraction), "Attribut 'x' : doit être de type float ou int"
-#        if x.__class__ is Fraction or y.__class__ is Fraction:
-#            self.a = ....
+        if x.__class__ is Fraction or y.__class__ is Fraction:
+           self.a = Fraction(x)
+           self.b = Fraction(y)
 
         self.a = x
         self.b = y
 
 
-    def __eq__(self,other): #Je te propose maintenant de toujours ajouter un jeu de test AVANT d'écrire le code
+    def __eq__(self,other): 
         """
         >>> NBcomplexe(1,2)==NBcomplexe(1,2)
         True
         >>> NBcomplexe(1,2)==NBcomplexe(1,3)
         False
+        >>> NBcomplexe(1,0)==1
+        True
 
         """
-        return (self.a==other.a and self.b==other.b )#Il faudrait pouvoir faire NBcomplexe(1,0)==1
-
+        if other.__class__ is NBcomplexe:
+            return (self.a==other.a and self.b==other.b )
+        elif other.__class__ is float or other.__class__ is int:
+            return (self.a==other and self.b==0)
+        else:
+            return NotImplemented # Et pourquoi pas raise ? 
 
     def __str__(self):
         if self.a == 0 and self.b == 0:
@@ -56,7 +63,7 @@ class NBcomplexe():
 
     def __repr__(self):
         return f"NBcomplexe({self.a},{self.b})"#Modif GV
-
+    
     def __add__(self, other):
         """
         >>> NBcomplexe(1,2)+(NBcomplexe(1,2)+2)+(2-NBcomplexe(1,2))
@@ -66,43 +73,80 @@ class NBcomplexe():
             x = self.a + other.a
             y = self.b + other.b
             return NBcomplexe(x,y)
-        elif other.__class__ is float or other.__class__ is int:#Je mettrai else il ne faut pas trop présumer des utilisations
-            x = self.a * other
-            y = self.b * other
+        elif other.__class__ is float or other.__class__ is int:#Je mettrai else il ne faut pas trop présumer des utilisations, Pas compris
+            x = self.a + other
+            y = self.b  
             return NBcomplexe(x,y)
         else:
             return NotImplemented
 
+        
+    __radd__ = __add__
+    
+
     def __sub__(self, other):
-        x = self.a - other.a
-        y = self.b - other.b
-        return NBcomplexe(x,y)
+        if other.__class__ is NBcomplexe:
+            x = self.a - other.a
+            y = self.b - other.b
+            return NBcomplexe(x,y)
+        elif other.__class__ is float or other.__class__ is int: 
+            x = self.a - other
+            y = self.b
+            return NBcomplexe(x,y)
+        else:
+            return NotImplemented
+        
+    
+    def __rsub__(self, other):
+        if other.__class__ is NBcomplexe:
+            __rsub__ = __sub__
+        elif other.__class__ is float or other.__class__ is int: 
+            x = other - self.a
+            y = self.b
+            return NBcomplexe(x,y)
+        else:
+            return NotImplemented
+            
+    def __neg__(self):
+        return self *-1
 
     def __mul__(self, other):
-        x = self.a * other.a - self.b * other.b
-        y = self.a * other.b + self.b * other.a
-        return NBcomplexe(x,y)
+        if other.__class__ is NBcomplexe:
+            x = self.a * other.a - self.b * other.b
+            y = self.a * other.b + self.b * other.a
+            return NBcomplexe(x,y)
+        elif other.__class__ is float or other.__class__ is int:
+            x = self.a * other
+            y = self.b 
+            return NBcomplexe(x,y)
+        else: 
+            return NotImplemented
+        
+        
 
+    __rmul__ = __mul__
+    
     def __truediv__(self, other):
         if other.a * other.a + other.b * other.b != 0:
             x = (self.a * other.a + self.b * other.b) / (other.a * other.a + other.b * other.b)
             y = (self.b * other.a - self.a * other.b) / (other.a * other.a + other.b * other.b)
             return NBcomplexe(x,y)
         else:
-            return f"Le dénominateur est zéro !"#plutôt en début de code un assert other!=0
-
-    def module(self):#ou abs
+            return ZeroDivisionError
+    
+    def module(self):
         return  sqrt( self.a * self.a + self.b * self.b)
 
-    def arg(self):#il manque une gestion d'erreur
-        return degrees(atan(self.b / self.a)) * pi/180
+    def arg(self):
+        if self.a != 0:
+            return degrees(atan(self.b / self.a)) * pi/180
+        else: 
+            return ZeroDivisionError
 
     def conjuge(self):
-        x = self.a
-        y = self.b * -1
-        return NBcomplexe(x,y)#On doit bouvoir écrire return NBcomplexe(self.x,-self.y)
+        return NBcomplexe(self.a, -self.b)
 
-    def affiche(self):#Implémenter plutôt l'affichage d'une LISTE de complexes
+    def affiche(self):#Implémenter plutôt l'affichage d'une LISTE de complexe : je n'ai pas compris ce que vous voulez 
         """
         Affiche Le nombre complex dans un graphique matplotlib tel que : x = la partie reel ; y = partie imaginaire
         """
@@ -134,7 +178,13 @@ if __name__ == "__main__":
     print(f"{z1} + {z2} = {z1+z2}")
     print(f"{z1} - {z2} = {z1-z2}")
     print(f"{z1} / {z2} = {z1/z2}")
-    #z3=NBcomplexe( Fraction(1,2),1)
+    
+    
+    
+    z3=NBcomplexe( Fraction(1,2),1)
+    
+    #TypeError: unsupported operand type(s) for %: 'Fraction' and 'int'
+    
     #z4=NBcomplexe( 1,Fraction(1,3))
     #print(f"{z3} * {z4} = {z3*z4}")
     #print(f"{z3} + {z4} = {z3+z4}")

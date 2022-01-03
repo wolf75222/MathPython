@@ -40,5 +40,8 @@ Matrice.py:
     
 
 NbComplexe.py:
-    
+    modification __eq__ implementation de la gestion des init et float
+    ainsi que __mul__ 
+    et autres
+    ajout de __neg__
 
