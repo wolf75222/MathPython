@@ -181,7 +181,7 @@ if __name__ == "__main__":
     
     
     
-    z3=NBcomplexe( Fraction(1,2),1)
+    #z3=NBcomplexe( Fraction(1,2),1)
     
     #TypeError: unsupported operand type(s) for %: 'Fraction' and 'int'
     
