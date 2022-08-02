@@ -12,20 +12,18 @@ import matplotlib as plt
 from mpl_toolkits import mplot3d
 
 
-
 class Matrice:
     """
         La class Matrice tel que:
-    
+
         Une matrice A de dimension n × p à termes dans R est un
         tableau de réels de n lignes et p colonnes
-    
+
         soit : A = (aij)
-    
+
         ij est le coefficient de A situé à l’intersection de la ligne i et de la colonne j.
         Mn,p(R) est l’ensemble des matrice de dimension n × p.
     """
-    
 
     def __init__(self, lst):
         """
@@ -46,8 +44,8 @@ class Matrice:
         self.tableau = lst
         self.lignes = len(lst)
         self.colonnes = len(lst[0])
-        
-    def matriceDeZero(l,c):
+
+    def matriceDeZero(l, c):
         """
         Parameters
         ----------
@@ -55,37 +53,35 @@ class Matrice:
             lignes
         c : floor ou int
             colonnes
-    
+
         Returns
         -------
         Matrice
             Renvoie une Matrice de zero tel que : M(l,c), par exemple M0=[[0,0,0],[0,0,0]]
         """
-    
+
         lst = [[0 for k in range(c)] for i in range(l)]
         return Matrice(lst)
-    
-    def identite(n): 
+
+    def identite(n):
         """
         Parameters
         ----------
         n : init
             Ordre de la matrice I
-    
+
         Returns
         -------
         I : Matrice
                 La matrice identité ou unité d’ordre n, notée In, est la matrice carrée d’ordre n
         qui possède des "1" sur sa diagonale principale et des "0" ailleurs.
-    
-    
+
+
         """
         I = Matrice.matriceDeZero(n, n)
         for i in range(n):
             I.tableau[i][i] = 1
         return I
-    
-    
 
     def __str__(self):
         """
@@ -93,10 +89,10 @@ class Matrice:
         -------
         st : String
             str() retourne une représentation sous forme de chaîne de caractères imprimable de l'objet passé.
-            
+
         """
         st = "\n-----\n"
-        m = 0 
+        m = 0
         for i in self:
             s = str(i)
             m = max(m, len(s))
@@ -108,9 +104,7 @@ class Matrice:
             st += "\n"
         st += "-----\n"
         return st
-    
-    
-                
+
     def __repr__(self):
         """
         Returns
@@ -125,12 +119,12 @@ class Matrice:
         """
         Définit le comportement de l'utilisation des crochets [] sur les instances
         de cette classe.
-        
+
         __getitem__est utilisé pour implémenter des appels comme self[key]
         https://qastack.fr/programming/43627405/understanding-getitem-method
-        
+
         accès aux éléments en lecture	objet[key]	__getitem__(self,key)
-        
+
         Parameters
         ----------
         idx : init
@@ -141,11 +135,11 @@ class Matrice:
 
         """
         return self.tableau[idx]
-    
+
     def __setitem__(self, idx, lst):
         """
         Pour définir la valeur
-        
+
         Parameters
         ----------
         idx : init
@@ -176,7 +170,8 @@ class Matrice:
 
         """
         if self.lignes != other.lignes or self.colonnes != other.colonnes:
-            raise(ValueError, "Pour additionner deux matrices, la taille des matrices doit être la même.")
+            raise(
+                ValueError, "Pour additionner deux matrices, la taille des matrices doit être la même.")
 
         m = Matrice.matriceDeZero(self.lignes, self.colonnes)
         for i in range(self.lignes):
@@ -184,7 +179,6 @@ class Matrice:
                 m[i][j] = self[i][j] + other[i][j]
 
         return m
-
 
     def __sub__(self, other):
         """
@@ -202,7 +196,8 @@ class Matrice:
 
         """
         if self.lignes != other.lignes or self.colonnes != other.colonnes:
-            raise(ValueError, "Pour soustraire deux matrices, la taille des matrices doit être la même.")
+            raise(
+                ValueError, "Pour soustraire deux matrices, la taille des matrices doit être la même.")
 
         m = Matrice.matriceDeZero(self.lignes, self.colonnes)
         for i in range(self.lignes):
@@ -226,7 +221,8 @@ class Matrice:
         m = Matrice.matriceDeZero(self.lignes, other.colonnes)
         for i in range(m.lignes):
             for j in range(m.colonnes):
-                m[i][j] = sum(self[i][k]*other[k][j] for k in range(self.colonnes))
+                m[i][j] = sum(self[i][k]*other[k][j]
+                              for k in range(self.colonnes))
         return m
 
     def __eq__(self, other):
@@ -242,8 +238,7 @@ class Matrice:
             Renvoie true si les Matrice sont égales
 
         """
-        return self.tableau==other.tableau
-
+        return self.tableau == other.tableau
 
     def estUneMatriceCarre(self):
         """
@@ -254,7 +249,6 @@ class Matrice:
 
         """
         return self.lignes == self.colonnes
-
 
     def transposition(self):
         """
@@ -274,7 +268,7 @@ class Matrice:
             for j in range(len(x[0])):
                 m[j][i] = x[i][j]
         return m
-    
+
     def __neg__(self):
         """
         Renvoie l'opposé de la Matrice
@@ -285,13 +279,13 @@ class Matrice:
             opposé de la matrice
 
         """
-        
+
         for i in range(self.lignes):
             for j in range(self.colonnes):
                 self[i][j] *= -1
-        
+
         return self
-    
+
     def __ne__(self, other):
         """
         non égal	 != ou <>	__ne__(self,other)
@@ -309,15 +303,15 @@ class Matrice:
         """
         if self == other:
             return False
-        else: 
+        else:
             return True
-    
+
     def __call__(self, i, j):
         """
         Matrice(3, 3, [[-2, 4, 9], [-34, -31, -39], [1, 19, 18]])
         M1(1,0)
         -34
-        
+
         Parameters
         ----------
         i : int
@@ -332,7 +326,7 @@ class Matrice:
 
         """
         return self.tableau[i][j]
-    
+
     def __iter__(self):
         """
         Pour faire des boucles comme for i in I, en parcourant les valeurs de i
@@ -342,31 +336,27 @@ class Matrice:
         ------
         i : int
             yield
-         renvoie une valeur, mais ne sort pas de la fonction. yield fabrique un objet generateur qui par exemple est utilisé dans la boucle for
+         renvoie une valeur, mais ne sort pas de la fonction. yield fabrique un objet generateur qui par exemple est utilisé dans la                      boucle fors
 
         """
-        
+
         for ligne in self.tableau:
             for i in ligne:
                 yield i
-            
+
     def inverse(self):
         """
         Une matrice carrée A d’ordre n est inversible si, et seulement
         si, il existe une matrice carrée d’ordre n, appelée matrice inverse A−1, telle que :
             AA−1 = A−1A = In
         Si A−1 n’existe pas, on dit que la matrice M est singulière
-        
+
         Returns
         -------
         None.
 
         """
         pass
-        
-    
-
-
 
 
 M0 = Matrice.matriceDeZero(3, 3)
@@ -374,21 +364,21 @@ M0 = Matrice.matriceDeZero(3, 3)
 MI = Matrice.identite(3)
 
 M1 = Matrice([
-        [ -2,   4,   9],
-        [-34, -31, -39],
-        [  1,  19,  18]])
+    [-2,   4,   9],
+    [-34, -31, -39],
+    [1,  19,  18]])
 
 M2 = Matrice.identite(3) + Matrice.identite(3)
 
 M3 = M2 * M2
 
-M4 = Matrice([[1,2],
-              [3,4],
-              [5,6]])
+M4 = Matrice([[1, 2],
+              [3, 4],
+              [5, 6]])
 
 M5 = Matrice.identite(4)
 #Matrice(4, 4, [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
-M5[2]= [4, 4, 4, 4]
+M5[2] = [4, 4, 4, 4]
 #Matrice(4, 4, [[1, 0, 0, 0], [0, 1, 0, 0], [4, 4, 4, 4], [0, 0, 0, 1]])
 
 
@@ -396,27 +386,27 @@ assert MI.estUneMatriceCarre() == True
 assert M4.transposition() == Matrice([[1, 3, 5],
                                       [2, 4, 6]])
 
-assert -M4 == Matrice([[-1,-2],
-              [-3,-4],
-              [-5,-6]])
+assert -M4 == Matrice([[-1, -2],
+                       [-3, -4],
+                       [-5, -6]])
 
 assert Matrice.identite(3) != M4
 
 if __name__ == "__main__":
-    
+
     import doctest
     doctest.testmod()
 
     M10 = Matrice([
-        [ 9,   6,   7],
+        [9,   6,   7],
         [-34, 100, 40],
-        [  -1,  134,  28]])
-    
+        [-1,  134,  28]])
+
     M11 = Matrice([
-        [ 1,   0,   0],
+        [1,   0,   0],
         [-9, -167, 89],
-        [  4,  55,  78]])
-    
+        [4,  55,  78]])
+
     print(f"{M10} + {M11} = {M10+M11}")
     print(f"{M10} - {M11} = {M10-M11}")
     print(f"{M10} * {M11} = {M10*M11}")
