@@ -25,12 +25,10 @@ class NBcomplexe():
         a : partie réel du nombre complexe
         b : partie imaginaire du nombre complexe
     """
-    def __init__(self, x = 0, y = 0):  #J'implémenterai l'appel avec un nombre complexe en paramètre qui permet ainsi la copie d'instances
+    def __init__(self, x = 0, y = 0):  
+        #J'implémenterai l'appel avec un nombre complexe en paramètre qui permet ainsi la copie d'instances
         #assert isinstance(x, int or float or Fraction), "Attribut 'x' : doit être de type float ou int"
-        if x.__class__ is Fraction or y.__class__ is Fraction:
-           self.a = Fraction(x)
-           self.b = Fraction(y)
-
+        
         self.a = x
         self.b = y
 
@@ -46,11 +44,11 @@ class NBcomplexe():
 
         """
         if other.__class__ is NBcomplexe:
-            return (self.a==other.a and self.b==other.b )
-        elif other.__class__ is float or other.__class__ is int:
-            return (self.a==other and self.b==0)
+            x =(self.a==other.a and self.b==other.b )
         else:
-            return NotImplemented # Et pourquoi pas raise ? 
+            x = (self.a==other and self.b==0)
+        return x 
+        
 
     def __str__(self):
         if self.a == 0 and self.b == 0:
@@ -60,67 +58,82 @@ class NBcomplexe():
         if self.b == 0:
             return f"{self.a}"
         return f"{self.a} + {self.b}i"
+    
 
     def __repr__(self):
         return f"NBcomplexe({self.a},{self.b})"#Modif GV
     
     def __add__(self, other):
         """
-        >>> NBcomplexe(1,2)+(NBcomplexe(1,2)+2)+(2-NBcomplexe(1,2))
-        NBcomplexe(5,6)
+        >>> (2+NBcomplexe(1,2))+(NBcomplexe(1,2)+2)+(2-NBcomplexe(1,2))
+        NBcomplexe(7,2)
         """
         if other.__class__ is NBcomplexe:
             x = self.a + other.a
             y = self.b + other.b
-            return NBcomplexe(x,y)
-        elif other.__class__ is float or other.__class__ is int:#Je mettrai else il ne faut pas trop présumer des utilisations, Pas compris
-            x = self.a + other
-            y = self.b  
-            return NBcomplexe(x,y)
         else:
-            return NotImplemented
-
+            x = self.a + other
+            y = self.b 
         
-    __radd__ = __add__
+        return NBcomplexe(x,y)
+
+
+    def __radd__(self, other):
+        return self+other
+    
+    #__radd__ = __add__
+    
     
 
     def __sub__(self, other):
         if other.__class__ is NBcomplexe:
             x = self.a - other.a
             y = self.b - other.b
-            return NBcomplexe(x,y)
-        elif other.__class__ is float or other.__class__ is int: 
+        else:
+            
+        #elif other.__class__ is float or other.__class__ is int: 
             x = self.a - other
             y = self.b
-            return NBcomplexe(x,y)
-        else:
-            return NotImplemented
+        return NBcomplexe(x,y)
+
         
     
     def __rsub__(self, other):
-        if other.__class__ is NBcomplexe:
-            __rsub__ = __sub__
-        elif other.__class__ is float or other.__class__ is int: 
-            x = other - self.a
-            y = self.b
-            return NBcomplexe(x,y)
-        else:
-            return NotImplemented
-            
+        """
+        other - self
+        
+        self NBcomplexe
+        
+        ex : 2-(3+i)
+
+        Parameters
+        ----------
+        self
+        other
+
+        Returns
+        -------
+        -(self-other)
+
+        """
+        return -(self-other)
+        
+        
+        
     def __neg__(self):
-        return self *-1
+        return NBcomplexe(-self.a, -self.b)
 
     def __mul__(self, other):
         if other.__class__ is NBcomplexe:
             x = self.a * other.a - self.b * other.b
             y = self.a * other.b + self.b * other.a
-            return NBcomplexe(x,y)
-        elif other.__class__ is float or other.__class__ is int:
+        else:
             x = self.a * other
-            y = self.b 
-            return NBcomplexe(x,y)
-        else: 
-            return NotImplemented
+            y = self.b * other
+        return NBcomplexe(x,y)
+
+        
+        
         
         
 
