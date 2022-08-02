@@ -3,7 +3,7 @@
 """
 Created on Mon Dec 20 00:06:59 2021
 
-@author: sirwolf
+@author: romain Despoullains
 """
 
 from math import sqrt, degrees, atan, pi
@@ -205,14 +205,15 @@ class Fraction():
     def float(self):
         return (self.numerateur /self.denominateur)
 
-    def __truediv__(self, other):
+    def __div__(self, other):
         if not isinstance(other, Fraction):
             other = self.fractionDepuisObjet(other)
         num = self.numerateur * other.denominateur
         denom = self.denominateur * other.numerateur
         return Fraction(num, denom)
 
-    __rtruediv__ = __truediv__
+    
+    __rdiv__ = __div__
 
     def __add__(self, other):
         if not isinstance(other, Fraction):
@@ -238,7 +239,7 @@ class Fraction():
     
 # =============================================================================
 
-f12=Fraction(1,2)  #A revoir car le numerateur est un float !!!
+f12=Fraction(1,2)  
 f13=Fraction(1,3)
 res=(f12==f13)
 f56=Fraction(5,6)
@@ -269,8 +270,19 @@ if __name__ == "__main__":
     print(f"{f12} + {f13} = {f12+f13}")
     print(f"{f12} - {f13} = {f12-f13}")
     print(f"{f12} * {f13} = {f12*f13}")
-    print(f"{f12} / {f13} = {f12/f13}")
+    #print(f"{f12} / {f13} = {f12/f13}")
     print(f"{2} * {f12} = {2*f12}")
     print(f"{f12} * {2} = {f12*2}")
     print(f"{2} + {f12} = {2+f12}")
     print(f"{f12} + {2} = {f12+2}")
+    
+    
+    for k in range(0,5):
+        n  = [1,3,7,9,13,15]
+        for i in range(len(n)):
+            N = n[i]+k
+            if estNbPremiers(N):
+                print("_____________")
+                print(n[i])
+                print(k)
+                print("_____________")
